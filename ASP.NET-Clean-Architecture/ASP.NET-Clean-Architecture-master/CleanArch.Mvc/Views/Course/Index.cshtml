@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CourseViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container bg-white">
+    <div class="row course-content">
+        @foreach (var course in Model.Courses)
+        {
+            <div class="col-md-4">
+                <a asp-action="ShowCourseInfo" asp-route-id="@course.CourseId"> 
+                <img class="img img-thumbnail" src="@(course.ImageUrl)"/>
+                </a>
+                <span>@course.Name</span>
+                @*<button class="btn btn-info" asp-controller="Course" asp-action="ShowCourseInfo" asp-route-id="@course.CourseId">Show Course Info</button>*@
+            </div>
+
+
+
+        }
+    </div>
+</div>

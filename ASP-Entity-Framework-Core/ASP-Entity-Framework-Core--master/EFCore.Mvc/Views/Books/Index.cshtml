@@ -1,0 +1,109 @@
+﻿@model IEnumerable<EFCore.Domain.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Mannage books</h1>
+
+<p>
+    <a asp-action="Upsert" asp-controller="Books" class="btn btn-primary">Create New Book</a>
+    <a asp-action="PlayGround" asp-controller="Books" class="btn btn-primary">play Ground</a>
+</p>
+@if (Model.Any()) 
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table-secondary">
+                <th>
+                    @Html.DisplayNameFor(model => model.BookId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ISBN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PriceRange)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookDetailId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PublisherId)
+                </th>
+                <th>
+                    nbf
+                </th>
+                <th>
+                    Authors
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ISBN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PriceRange)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookDetailId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PublisherId)
+                    </td>
+                    <td>
+                        @item.BookDetail?.NumberOfPages
+                    </td>
+                    <td>
+                        @{
+                            string authors = "";
+                        }
+                        @foreach (var author in item.BookAuthors)
+                        {
+                            authors += author.Author.FullName + ", ";
+
+                    }
+                    @authors.Trim().Trim(',')
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-warning" asp-action="Upsert" asp-route-id="@item.BookId">Edit</a>
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+                        <a class="btn btn-outline-warning" asp-action="ManageAuthors" asp-route-id="@item.BookId">Manage Author</a>
+                        @*@Html.ActionLink("Edit", "Upsert", new { /* id=item.PrimaryKey */ }) |*@
+                        @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                        @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p> No Record to see</p>
+}

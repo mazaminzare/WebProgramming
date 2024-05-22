@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model EFCore.Application.ViewModels.BookAuthorViewModel
+
+<div class="container p-3 border">
+    <div class="row">
+        <div class="col-6 form-group">
+            <form method="post" asp-action="ManageAuthors" class="row`">
+                <div asp-validation-summary="All"></div>
+                <input type="hidden" asp-for="Book.BookId" />
+                <input type="hidden" asp-for="BookAuthor.BookId" />
+                <div class="row">
+                    <div class="col-3">
+                        <label asp-for="Book.Title"></label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" asp-for="Book.Title" class="form-control" disabled />
+                    </div>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-3">
+                        <label asp-for="BookAuthor.Author.FullName"></label>
+                    </div>
+                    <div class="col-9">
+                        @Html.DropDownListFor(u=>u.BookAuthor.AuthorId,Model.AuthorList,"-- select author --",new {@class="form-control"})
+                    </div>
+                </div>
+                <div class="col-4 offset-4 pt-2">
+                    <button type="submit" class="btn btn-outline-success">Add Author</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-6 form-group">
+            <form method="post" asp-action="RemoveAuthor" >
+                <input type="hidden" asp-for="Book.BookId"/>
+                <div class="row text-right">
+                    <h2 class="text-info"> Authors List</h2>
+                    <hr />
+                    @foreach (var item in Model.BookAuthors)
+                    {
+                        <div class="row pb-2">
+                            <div class="col-8 pb-2">
+                                @item.Author.FullName
+                            </div>
+                            <div class="col-4">
+                                <button asp-action="RemoveAuthor" class="btn btn-outline-danger form-control" asp-route-id="@item.AuthorId">Remove</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial" />
+}
